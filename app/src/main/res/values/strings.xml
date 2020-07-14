@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">connect-easy</string>
+    <string name="action_settings">Settings</string>
+    <string name="folder_pick_cancelled">Cancelled</string>
+    <string name="title_activity_upload">uploadActivity</string>
+
+</resources>

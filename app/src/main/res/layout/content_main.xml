@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="5dp"
+    android:overScrollMode="always"
+    >
+
+
+    <EditText
+        android:id="@+id/deviceID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Device Id"
+        android:inputType="text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHighlight="#00000000"
+        android:textColorLink="#00000000"
+        android:textSize="20dp"
+        android:layout_marginTop="@dimen/common_margin_top"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/prefix"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Prefix"
+        android:inputType="text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHighlight="#00000000"
+        android:textColorLink="#00000000"
+        android:textSize="20dp"
+        android:layout_below="@+id/deviceID"
+        android:layout_marginTop="@dimen/common_margin_top"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#00000000"
+        android:textColorHighlight="#00000000"
+        android:textColorLink="#00000000"
+        android:textSize="20dp"
+        android:layout_below="@+id/prefix"
+        android:layout_marginTop="@dimen/common_margin_top"
+        android:layout_centerHorizontal="true" />
+
+
+    <TextView
+        android:id="@+id/folderArea"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/dirButton"
+        android:layout_marginTop="@dimen/common_margin_top"
+        android:textSize="20dp"
+        android:autoSizeTextType="uniform"/>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/folderArea"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/common_margin_top"
+        android:background="#009688"
+        android:text="Submit"
+        android:textColor="@android:color/white"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/dirButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_marginTop="@dimen/common_margin_top"
+        android:text="Choose Directory"
+        android:textSize="20dp" />
+
+</RelativeLayout>
