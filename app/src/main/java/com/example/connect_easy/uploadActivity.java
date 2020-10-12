@@ -3,25 +3,10 @@ package com.example.connect_easy;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -30,6 +15,20 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,11 +42,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,16 +51,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import static com.example.connect_easy.MainActivity.Shared_prefs;
-
 public class uploadActivity extends AppCompatActivity {
     protected static String supported_file_type;
     protected static SharedPreferences sharedPreferences;
+    private static AsyncResponse asyncResponse;
+   // public AsyncResponse asyncResponse;
     //check login status
     //variable for success file count
 
@@ -75,7 +68,7 @@ public class uploadActivity extends AppCompatActivity {
     static String selectedDirectories = "";
     String username = "";
     File selectedFolder;
-    TextView fileCount;
+    static TextView fileCount;
     static int audioFileCount;
     static Button uploadButton;
     static connectionDetector mConnectionDetector;
@@ -113,10 +106,12 @@ public class uploadActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e("uploadactivitycall","upload activity oncreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
+        //asyncResponse=new AsyncResponse() ;
         //this url will give allowed extensions on post request
-        ext_url = "http://192.168.0.100:3000/api/users/supported_extensions";
+        ext_url = "http://192.168.0.107:3000/api/users/supported_extensions";
         sharedPreferences = getSharedPreferences(MainActivity.Shared_prefs, MODE_PRIVATE);
         fileCount = (TextView) findViewById(R.id.fileCount);
         message_box=(TextView)findViewById(R.id.message_box);
@@ -185,7 +180,13 @@ public class uploadActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
     public void getSupportedFileCount(final int Flag) {
         // Flag=1 means normal operaion to count and show
         Log.e("listf called", Flag + "");
@@ -216,6 +217,7 @@ public class uploadActivity extends AppCompatActivity {
                                 audioFileCount = 0;
                                 for (int folder_count = 0; folder_count < Folders.length; folder_count++) {
                                     File selectedFolder = new File(Folders[folder_count]);
+                                    Log.e("uploading from",Folders[folder_count]);
                                     if (selectedFolder.exists()) {
                                         //no connection- do something
                                         supported_file_extensions = dataobj.getString("allowed_extensions");
@@ -256,6 +258,13 @@ public class uploadActivity extends AppCompatActivity {
                                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                         dialog.setCancelable(false);
                                         dialog.setContentView(R.layout.dialog);
+                                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                            @Override
+                                            public void onDismiss(DialogInterface dialogInterface) {
+                                                Log.e("listener call","dismiss listener");
+                                                refreshActivity();
+                                            }
+                                        });
                                         progressBar=(ProgressBar) dialog.findViewById(R.id.progress_horizontal);;
                                         progerssText=dialog.findViewById(R.id.value123);
                                         dialog.show();
@@ -360,6 +369,7 @@ public class uploadActivity extends AppCompatActivity {
         Log.e("relevent file",relevant_file+"");
         if(relevant_file>0)
         {
+            Log.e("relevent file","inside if");
             //if(ftpClient.cwd(DevId+"")==550)
             //  jLabel4.setText("directory doesn't exist");
             //ftpClient.logout();
@@ -375,10 +385,10 @@ public class uploadActivity extends AppCompatActivity {
                 //Panadem.jp_progress.repaint();
                 //Panadem.jp_progress.paintImmediately(Panadem.jp_progress.getVisibleRect());
                 for (File file : fList) {
-
+                   // Log.e("supported_type",supported_file_extensions);
                     if (file.isFile()) {
                         //System.out.println(file.getName()+"call from move function");
-                        if(supported_file_type.indexOf(file.getName().substring(file.getName().lastIndexOf(".") + 1))>-1 && file.getName().indexOf(".")!=0)
+                        if(supported_file_extensions.indexOf(file.getName().substring(file.getName().lastIndexOf(".") + 1))>-1 && file.getName().indexOf(".")!=0)
                         {
                             String xmlFileName=file.getName()+".xml";
                             String jpegFileName=file.getName().split("[.]")[0]+"-0.jpeg";
@@ -440,7 +450,8 @@ public class uploadActivity extends AppCompatActivity {
                                     uploadURL="http://upload.panadem.com/testapp/UploadServlet?counter="+hmap.get(uploadFile.getName())+"&uid="+uid+"&last_modified="+uploadFile.lastModified()+"&suffix="+prefix+"&generatedFileName="+ generatedAudioName;
                                     Log.e("upload url",uploadURL);
                                     //System.out.println(generatedFileName);
-                                    UploadTask task = new UploadTask(uploadURL, uploadFile,i,relevant_file,1, generatedAudioName,moved_file_count,directoryName);
+
+                                    UploadTask task = new UploadTask(uploadURL, uploadFile,i,relevant_file,1, generatedAudioName,moved_file_count,directoryName,asyncResponse);
                                     //System.out.println("upload url: "+uploadURL);
                                     //task.addPropertyChangeListener(this);
 
@@ -487,7 +498,7 @@ public class uploadActivity extends AppCompatActivity {
                                         File uploadFile=jpegFile;
                                         long fileSize = uploadFile.length();
                                         uploadURL="http://upload.panadem.com/testapp/UploadServlet?counter="+hmap.get(uploadFile.getName())+"&uid="+uid+"&last_modified="+uploadFile.lastModified()+"&suffix="+prefix+"&generatedFileName="+generatedJPEGName;
-                                        UploadTask task = new UploadTask(uploadURL, uploadFile,i,relevant_file,1,generatedJPEGName,moved_file_count,supported_file_extensions);
+                                        UploadTask task = new UploadTask(uploadURL, uploadFile,i,relevant_file,1,generatedJPEGName,moved_file_count,supported_file_extensions,asyncResponse);
                                         //System.out.println("upload url: "+uploadURL);
                                         //task.addPropertyChangeListener(this);
 
@@ -534,7 +545,7 @@ public class uploadActivity extends AppCompatActivity {
                                         File uploadFile=xmlFile;
                                         long fileSize = uploadFile.length();
                                         uploadURL="http://upload.panadem.com/testapp/UploadServlet?counter="+hmap.get(uploadFile.getName())+"&uid="+uid+"&last_modified="+uploadFile.lastModified()+"&suffix="+prefix+"&generatedFileName="+generatedXMLName;
-                                        UploadTask task = new UploadTask(uploadURL, uploadFile,i,relevant_file,1,generatedXMLName,moved_file_count,supported_file_extensions);
+                                        UploadTask task = new UploadTask(uploadURL, uploadFile,i,relevant_file,1,generatedXMLName,moved_file_count,supported_file_extensions,asyncResponse);
                                         //System.out.println("upload url: "+uploadURL);
                                         //task.addPropertyChangeListener(this);
 
@@ -695,6 +706,24 @@ public class uploadActivity extends AppCompatActivity {
     public void resetActivity()
     {
         startActivity(new Intent(uploadActivity.this, uploadActivity.class));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent i = new Intent(uploadActivity.this, MainActivity.class);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(i);
+        overridePendingTransition(0, 0);
+    }
+
+
+
+    public void refreshActivity()
+    {
+        finish();
+        startActivity(getIntent());
     }
 }
 

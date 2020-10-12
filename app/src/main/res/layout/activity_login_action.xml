@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/bg_video"></include>
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+
+        >
+<LinearLayout
+    android:id="@+id/manual_login_container"
+    android:orientation="horizontal"
+    android:layout_gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:weightSum="1">
+        <Button
+            android:id="@+id/text_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:text="Enter username/password"
+            style="@style/buttonStyle"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+
+            />
+</LinearLayout>
+<LinearLayout
+            android:id="@+id/scan_button_container"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="1"
+            android:layout_below="@id/manual_login_container"
+            android:paddingTop="60dp">
+        <Button
+        android:text="Scan QR Code&#10;(Available in your Panadem Login )"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        style="@style/buttonStyle"
+        android:id="@+id/scan_button"
+        android:textStyle="bold"
+            />
+ </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

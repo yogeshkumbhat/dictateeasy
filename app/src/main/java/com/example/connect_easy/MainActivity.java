@@ -1,52 +1,5 @@
 package com.example.connect_easy;
 
-import java.beans.PropertyChangeEvent;
-import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.Base64;
-import java.util.Scanner;
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.util.*;
-import java.util.Vector;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
-import java.net.Socket;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.net.NoRouteToHostException;
-import java.net.ConnectException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-import java.io.*;
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-import java.io.*;
-import org.xml.sax.SAXException;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -54,6 +7,20 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -67,40 +34,29 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.text.Html;
-import android.util.Log;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import lib.folderpicker.FolderPicker;
 
 import static com.example.connect_easy.uploadActivity.hmap;
-import static com.example.connect_easy.uploadActivity.message_box;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -132,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private static SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e("devicename",getDeviceName());
         requestQueue =Volley.newRequestQueue(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -140,10 +97,13 @@ public class MainActivity extends AppCompatActivity {
         prefix=(EditText) findViewById(R.id.prefix);
         password=(EditText) findViewById(R.id.password);
         checkStoragePermission();
-        login_url="http://192.168.0.100:3000/api/users/login";
+        login_url="http://192.168.0.107:3000/api/users/login";
         folderArea=(TextView)findViewById(R.id.folderArea);
         jsonBodyObj = new JSONObject();
         dirButton=(Button)findViewById(R.id.dirButton);
+    // setting up data in pripor just to test
+         // this needs to be come through api
+
 
         Log.e("loaddata","data loaded");
         loadData();
@@ -248,12 +208,16 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "No suitable File Manager was found.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    //login_type 1 for manual login and 2 for qr code scan login
     private void submit() {
         //RequestQueue requestQueue =Volley.newRequestQueue(this);
 
         Map<String, String> postParam = new HashMap<String, String>();
-        postParam.put("id", deviceIdVal);
-        postParam.put("password", passwordVal);
+
+            postParam.put("id", deviceIdVal);
+            postParam.put("password", passwordVal);
+
 
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -262,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        parseData(response.toString());
+                        parseData(response.toString(),selectedDirectory);
                         Log.d("serverresponse", response.toString());
                         //  msgResponse.setText(response.toString());
                         //hideProgressDialog();
@@ -292,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
         };
         requestQueue.add(jsonObjReq);
     }
-    public void parseData(String response) {
+    public void parseData(String response,String selectedFolder) {
         try {
 
             JSONObject jsonObject = new JSONObject(response);
@@ -301,10 +265,10 @@ public class MainActivity extends AppCompatActivity {
 
                 JSONObject dataobj = jsonObject.getJSONObject("data");
                 //JSONArray dataArray = jsonObject.getJSONArray("data");
-                folderArea.setText(dataobj.getString("username"));
+                //folderArea.setText(dataobj.getString("username"));
 
                 Log.i("success_val",dataobj.getString("id")+"ramu kaka");
-                if(!selectedDirectory.trim().equals(""))
+                if(!selectedFolder.trim().equals(""))
                 {
                     saveData(true,dataobj.getString("username"),selectedDirectory,dataobj.getString("user_id"),prefix.getText().toString(),dataobj.getString("id"));
                     loadData();
@@ -342,8 +306,10 @@ public class MainActivity extends AppCompatActivity {
             if (sharedPreferences.contains("panadem.username") && !sharedPreferences.getString("panadem.username", "").equals("")) {
                 username = sharedPreferences.getString("panadem.username", "");
 
-                folderArea.setText("login was successfull"+ sharedPreferences.getString(" panadem.deviceId", ""));
-                startActivity(new Intent(MainActivity.this,uploadActivity.class));
+                //folderArea.setText("login was successfull"+ sharedPreferences.getString(" panadem.deviceId", ""));
+                startActivity(new Intent(this,uploadActivity.class));
+                Log.e("uploadsctivityintent","mainsctivity");
+                finish();
             }
         }
         Log.e("saved_data", username+" "+loginStatus);
@@ -592,6 +558,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return "hi";
+    }
+    public static String getDeviceName() {
+        String manufacturer = android.os.Build.MANUFACTURER;
+        String model = android.os.Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+            return model;
+        }
+        return manufacturer + " " + model;
     }
 }
 

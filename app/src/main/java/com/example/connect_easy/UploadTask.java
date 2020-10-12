@@ -10,37 +10,24 @@
  * @author Yogesh
  */
 package com.example.connect_easy;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import static androidx.core.content.ContextCompat.startActivity;
-import static com.example.connect_easy.uploadActivity.progressBar;
-import static com.example.connect_easy.uploadActivity.supported_file_extensions;
-import static java.lang.Thread.sleep;
-import java.util.Date;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-//import javax.swing.JOptionPane;
-//import javax.swing.SwingWorker;
 import static com.example.connect_easy.uploadActivity.failed_file_count;
 import static com.example.connect_easy.uploadActivity.file_number;
 import static com.example.connect_easy.uploadActivity.isConnected;
 import static com.example.connect_easy.uploadActivity.is_button_enabled;
-import static com.example.connect_easy.uploadActivity.listf;
-import static com.example.connect_easy.uploadActivity.present_file;
-import static com.example.connect_easy.uploadActivity.supported_file_type;
-import static com.example.connect_easy.uploadActivity.hmap;
-import static com.example.connect_easy.uploadActivity.message_box;
 import static com.example.connect_easy.uploadActivity.is_upload_started;
+import static com.example.connect_easy.uploadActivity.present_file;
+import static com.example.connect_easy.uploadActivity.supported_file_extensions;
+
+//import javax.swing.JOptionPane;
+//import javax.swing.SwingWorker;
 //import com.example.connect_easy.MainActivity.getFileSize();
 
 /**
@@ -86,7 +73,7 @@ public class UploadTask extends AsyncTask<Void,Integer,Void> {
     @Override
     protected void onPreExecute()
     {
-
+        uploadActivity.progerssText.setText("0");
     }
     @Override
     protected Void doInBackground(Void... voids) {
@@ -215,6 +202,7 @@ public class UploadTask extends AsyncTask<Void,Integer,Void> {
                             if(status==100)
                             {
                                 uploadActivity.dialog.dismiss();
+
                             }
                             Log.e("message box",(int)(file_number*100/relevant_file)+"");
 
@@ -245,15 +233,16 @@ public class UploadTask extends AsyncTask<Void,Integer,Void> {
                             {
                                 new File(uploadFile.getAbsolutePath()+".XML").delete();
                             }
-                            if(supported_file_type.contains(uploadFile.getName().substring(uploadFile.getName().lastIndexOf(".") + 1)))
+                            if(supported_file_extensions.contains(uploadFile.getName().substring(uploadFile.getName().lastIndexOf(".") + 1)))
                             {
                                 if(bhasad_var!=9999)
                                 {
 
                                     file_number++;
+                                    Log.e("file_number increament", file_number+"");
                                     uploadActivity.progressBar.setProgress((int)(file_number*100/relevant_file));
                                     uploadActivity.progerssText.setText(String.valueOf((int)(file_number*100/relevant_file)));
-                                    delegate.processFinish();
+                                   // delegate.processFinish(100);
                                     if(file_number==relevant_file)
                                     {
                                         uploadActivity.dialog.dismiss();
@@ -277,7 +266,7 @@ public class UploadTask extends AsyncTask<Void,Integer,Void> {
                             //System.out.println(uploadFile.getAbsolutePath()+" "+generatedFileName+" call from reattempt block");
                             ////System.out.println("attempt"+attempt_counter+"bkl file:"+uploadFile.getName());
 
-                            UploadTask reAttempt=new UploadTask(uploadURL,uploadFile,file_number,relevant_file,++attempt_counter,generatedFileName,bhasad_var,folder_path);
+                            UploadTask reAttempt=new UploadTask(uploadURL,uploadFile,file_number,relevant_file,++attempt_counter,generatedFileName,bhasad_var,folder_path,delegate);
                             reAttempt.execute();
                             attempt_counter++;
                         }
