@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,63 +7,92 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".uploadActivity"
     tools:showIn="@layout/activity_upload"
+    android:orientation="vertical"
+    android:weightSum="1"
     >
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:src="@drawable/upload"
+        tools:src="@drawable/upload"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_gravity="center"
+        android:layout_weight="0.3"
+        android:layout_height="200dp" />
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:id="@+id/layoutContainer"
     android:gravity="center"
     android:orientation="vertical"
     android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true" >
-
+    android:layout_centerVertical="true"
+    android:layout_weight="0.7"
+    >
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textStyle="bold"
+        android:textColor="#1d5d81"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:paddingBottom="10dp"
+        />
     <TextView
         android:id="@+id/fileCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text=""
+        android:textStyle="bold"
+        android:textColor="#1d5d81"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:textSize="20dp"
         />
-    <TextView
-        android:id="@+id/message_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="20dp"
-        android:layout_below="@id/progressLayout"
-        android:layout_marginTop="20px"
-        />
+
     <Button
         android:id="@+id/uploadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload"
+        android:text=" Upload"
         android:textSize="20dp"
-            android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/appbutton"
+        android:textColor="@color/buttonFontColor"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:drawableLeft="@drawable/ic_upload"
+        />
+
     <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:weightSum="1"
         android:layout_below="@id/uploadButton"
         android:layout_marginTop="15dp"
         android:id="@+id/progressLayout"
         android:layout_centerVertical="true"
         android:gravity="center"
+
         >
-        <ProgressBar
-            android:id="@+id/uploadProgressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.7" />
+
 
 
 </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4">
+
+
+    </LinearLayout>
 </LinearLayout>
-</RelativeLayout>
+
+
+</LinearLayout>

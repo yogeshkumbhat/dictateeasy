@@ -2,9 +2,17 @@
     <string name="app_name">connect-easy</string>
     <string name="action_settings">Settings</string>
     <string name="folder_pick_cancelled">Cancelled</string>
-    <string name="title_activity_upload">uploadActivity</string>
+    <string name="title_activity_upload">Upload recording(s)</string>
+    <string name="no_internet">No internet</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
     <string name="ok">OK</string>
+
+
+    <string name="downloading">Downloading...</string>
+    <string name="title_file_download">APK is downloading</string>
+    <string name="storage_access_required">Storage access is required to downloading the file.</string>
+    <string name="storage_permission_denied">Storage permission request was denied.</string>
+
 </resources>

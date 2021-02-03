@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,19 +12,38 @@
     android:layout_marginRight="10dp"
     android:layout_marginBottom="5dp"
     android:overScrollMode="always"
-    >
-
-
+    android:orientation="vertical"
+    android:layout_weight="10">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="4"
+    android:id="@+id/imagelayout">
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:src="@drawable/upload"
+        tools:src="@drawable/upload"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_height="match_parent" />
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2">
     <EditText
         android:id="@+id/deviceID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:hint="Device Id"
         android:inputType="text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHighlight="#00000000"
         android:textColorLink="#00000000"
+        android:background="@color/editTextColor"
         android:textSize="20dp"
         android:layout_marginTop="@dimen/common_margin_top"
         android:layout_centerHorizontal="true"/>
@@ -32,7 +51,7 @@
     <EditText
         android:id="@+id/prefix"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:hint="Prefix"
         android:inputType="text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -40,6 +59,7 @@
         android:textColorHighlight="#00000000"
         android:textColorLink="#00000000"
         android:textSize="20dp"
+        android:background="@color/editTextColor"
         android:layout_below="@+id/deviceID"
         android:layout_marginTop="@dimen/common_margin_top"
         android:layout_centerHorizontal="true"/>
@@ -47,20 +67,40 @@
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/prefix"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/common_margin_top"
         android:ems="10"
+        android:background="@color/editTextColor"
+
         android:hint="Password"
         android:inputType="textPassword"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#00000000"
-        android:textColorHighlight="#00000000"
-        android:textColorLink="#00000000"
-        android:textSize="20dp"
-        android:layout_below="@+id/prefix"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHighlight="@color/colorPrimaryDark"
+        android:textColorLink="@color/colorPrimaryDark"
+        android:textSize="20dp" />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2">
+    <Button
+        android:id="@+id/dirButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_margin_top"
-        android:layout_centerHorizontal="true" />
-
-
+        android:text="Choose Directory"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@drawable/appbutton"/>
     <TextView
         android:id="@+id/folderArea"
         android:layout_width="match_parent"
@@ -77,18 +117,12 @@
         android:layout_below="@+id/folderArea"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/common_margin_top"
-        android:background="#009688"
         android:text="Submit"
         android:textColor="@android:color/white"
-        android:textSize="20dp" />
-
-    <Button
-        android:id="@+id/dirButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
-        android:layout_marginTop="@dimen/common_margin_top"
-        android:text="Choose Directory"
-        android:textSize="20dp" />
-
-</RelativeLayout>
+        android:textSize="20dp"
+        android:background="@drawable/appbutton"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        />
+    </RelativeLayout>
+</LinearLayout>
