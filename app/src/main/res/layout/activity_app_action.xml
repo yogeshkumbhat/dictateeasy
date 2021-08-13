@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@layout/repeat_background">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:src="@drawable/upload"
+        tools:src="@drawable/upload"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_height="300dp" />
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+
+        >
+        <LinearLayout
+            android:id="@+id/manual_login_container"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/upload_file_button"
+                style="@style/buttonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.8"
+                android:background="@drawable/appbutton"
+                android:clickable="true"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="15dp"
+                android:text="Upload files"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/scan_button_container"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="1"
+            android:layout_below="@id/manual_login_container"
+            android:paddingTop="60dp"
+            >
+
+            <Button
+                android:text="Record new files"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                style="@style/buttonStyle"
+                android:id="@+id/record_new_button"
+                android:textStyle="bold"
+                android:background="@drawable/appbutton"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

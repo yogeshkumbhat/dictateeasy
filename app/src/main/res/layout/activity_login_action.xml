@@ -61,7 +61,7 @@
             >
 
         <Button
-        android:text="Scan QR Code&#10;(Available in your Panadem Login )"
+        android:text="Scan QR Code&#10;(Available in your Dictate easy Login )"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.8"

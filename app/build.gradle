@@ -5,10 +5,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.example.connect_easy"
-        minSdkVersion 14
+        applicationId "com.dictateeasy"
+        minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
+        versionCode 13
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -18,7 +18,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
+
 
 
 
@@ -27,6 +32,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'com.google.android.material:material:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -47,6 +53,23 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    def nav_version = "2.3.4"
+
+    // Java language implementation for jetpack
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    // Jetpack Compose Integration
+    implementation "androidx.navigation:navigation-compose:1.0.0-alpha09"
+    // material design component
+    implementation 'com.google.android.material:material:1.2.0-alpha04'
+
+    //audio merge
+    implementation 'com.googlecode.mp4parser:isoparser:1.1.21'
+
+    //
+    apply plugin: "androidx.navigation.safeargs"
+
 
 }
 repositories {
