@@ -20,4 +20,8 @@
         <item name="android:background">@color/buttonBackgroundColor</item>
         <item name="android:textColor">@color/buttonFontColor</item>
     </style>
+    <style name="dialogTheme"  parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
 </resources>

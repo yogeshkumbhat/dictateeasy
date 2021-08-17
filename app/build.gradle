@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
     defaultConfig {
         applicationId "com.dictateeasy"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 13
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -43,7 +43,9 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     implementation 'com.google.zxing:core:3.2.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
+    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:29.0.0'
+    //noinspection GradleCompatible
     implementation 'com.android.support:design:29.0.0'
     implementation 'com.google.android.gms:play-services-vision:10.2.1'
     implementation "com.google.android.material:material:1.1.0"
@@ -63,6 +65,8 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha09"
     // material design component
     implementation 'com.google.android.material:material:1.2.0-alpha04'
+
+
 
     //audio merge
     implementation 'com.googlecode.mp4parser:isoparser:1.1.21'

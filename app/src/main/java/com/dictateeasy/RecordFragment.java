@@ -2,8 +2,7 @@ package com.dictateeasy;
 
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
@@ -186,8 +185,9 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                     mediaPlayer.stop();
                 }
                 if(isRecording){
-
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    startActivity(new Intent(getActivity(),MyDialog.class));
+                    //dialog.show();
+                   /* AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                     alertDialog.setPositiveButton("OKAY", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -198,7 +198,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                     alertDialog.setNegativeButton("CANCEL", null);
                     alertDialog.setTitle("Audio Still recording");
                     alertDialog.setMessage("Are you sure, you want to stop the recording?");
-                    alertDialog.create().show();
+                    alertDialog.create().show();*/
                 } else {
                     navController.navigate(R.id.action_recordFragment_to_audioListFragment);
                 }
